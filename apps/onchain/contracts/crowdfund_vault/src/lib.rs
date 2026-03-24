@@ -6,7 +6,7 @@ mod math;
 mod storage;
 mod token;
 
-use errors::CrowdfundError;
+pub use errors::CrowdfundError;
 use math::{sqrt_scaled, unscale};
 use soroban_sdk::token::TokenClient;
 use soroban_sdk::{contract, contractimpl, Address, BytesN, Env, Symbol};

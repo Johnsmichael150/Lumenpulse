@@ -35,4 +35,5 @@ PR_PASSWORD_RESET.md
 
 .agent/
 .agents/
+.kiro
 issue.md
