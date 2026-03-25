@@ -20,6 +20,8 @@ pub enum DataKey {
     Reputation(Address),              // Address -> i128
     Paused,
     ProjectStatus(u64),
+    FeeBps,   // -> u32
+    Treasury, // -> Address
     Subscribers,
 }
 
