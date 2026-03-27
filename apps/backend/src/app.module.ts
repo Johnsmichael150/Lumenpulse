@@ -21,10 +21,10 @@ import { SnapshotsModule } from './snapshot/snapshot.module';
 import { ModelRetrainingModule } from './model-retraining/model-retraining.module';
 import { DataSource, DataSourceOptions } from 'typeorm';
 import stellarConfig from './stellar/config/stellar.config';
+import { TransactionModule } from './transaction/transaction.module';
 import { AnalyticsModule } from './analytics/analytics.module';
 import { AppCacheModule } from './cache/cache.module';
-import { StellarModule } from './stellar/stellar.module';
-
+import { StellarModule } from './stellar/stellar.module'
 const appLogger = new Logger('TypeORM');
 
 @Module({
@@ -75,6 +75,7 @@ const appLogger = new Logger('TypeORM');
     EmailModule,
     PortfolioModule,
     SnapshotsModule,
+    TransactionModule,
     ModelRetrainingModule,
     AnalyticsModule,
   ],
