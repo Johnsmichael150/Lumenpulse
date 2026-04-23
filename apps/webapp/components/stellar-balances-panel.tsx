@@ -9,10 +9,18 @@ type Balance = {
   balance: string;
 };
 
+export interface Asset {
+  code: string;
+  issuer?: string;
+  balance: string;
+}
+
 export default function StellarBalancesPanel({
   publicKey,
+  onAssetSelect,
 }: {
   publicKey: string | null;
+  onAssetSelect?: (asset: Asset) => void;
 }) {
   const [balances, setBalances] = useState<Balance[]>([]);
   const [loading, setLoading] = useState(false);
@@ -27,7 +35,7 @@ export default function StellarBalancesPanel({
         setError("");
 
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/stellar/accounts/${publicKey}/balances`
+          `${process.env.NEXT_PUBLIC_API_URL}/stellar/accounts/${publicKey}/balances`,
         );
 
         if (!res.ok) {
@@ -36,13 +44,11 @@ export default function StellarBalancesPanel({
 
         const data = await res.json();
 
-        const sorted = (data?.balances || []).sort(
-          (a: Balance, b: Balance) => {
-            if (a.asset_type === "native") return -1;
-            if (b.asset_type === "native") return 1;
-            return 0;
-          }
-        );
+        const sorted = (data?.balances || []).sort((a: Balance, b: Balance) => {
+          if (a.asset_type === "native") return -1;
+          if (b.asset_type === "native") return 1;
+          return 0;
+        });
 
         setBalances(sorted);
       } catch (err) {
@@ -85,7 +91,14 @@ export default function StellarBalancesPanel({
           {balances.map((b, i) => (
             <div
               key={i}
-              className="flex justify-between items-center border-b border-gray-700 pb-2"
+              onClick={() =>
+                onAssetSelect?.({
+                  code: b.asset_type === "native" ? "XLM" : b.asset_code || "",
+                  issuer: b.asset_issuer,
+                  balance: b.balance,
+                })
+              }
+              className="flex justify-between items-center border-b border-gray-700 pb-2 hover:bg-white/5 p-2 rounded-lg cursor-pointer transition-colors"
             >
               <span>
                 {b.asset_type === "native"
